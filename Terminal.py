@@ -117,8 +117,13 @@ class TerminalCommand():
             if not dir_:
                 raise NotFoundError('The file open in the selected view has ' +
                     'not yet been saved')
+
+            filename = self.window.active_view().file_name()
+            basename = os.path.basename(filename)
             for k, v in enumerate(parameters):
                 parameters[k] = v.replace('%CWD%', dir_)
+                parameters[k] = v.replace('%FILENAME%', basename)
+
             args = [TerminalSelector.get()]
             args.extend(parameters)
             encoding = locale.getpreferredencoding(do_setlocale=True)
