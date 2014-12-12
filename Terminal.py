@@ -120,9 +120,18 @@ class TerminalCommand():
 
             filename = self.window.active_view().file_name()
             basename = os.path.basename(filename)
+
+            title = basename + " - "
+            path, tail = os.path.split(filename)
+            while True:
+                path, tail = os.path.split(path)
+                title += tail + "/"
+                if len(tail) == 0: break
+
             for k, v in enumerate(parameters):
                 parameters[k] = v.replace('%CWD%', dir_)
                 parameters[k] = v.replace('%FILENAME%', basename)
+                parameters[k] = v.replace('%TITLE%', title)
 
             args = [TerminalSelector.get()]
             args.extend(parameters)
